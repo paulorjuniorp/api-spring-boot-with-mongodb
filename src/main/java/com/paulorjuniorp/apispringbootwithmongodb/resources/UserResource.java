@@ -1,6 +1,7 @@
 package com.paulorjuniorp.apispringbootwithmongodb.resources;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.paulorjuniorp.apispringbootwithmongodb.domain.User;
+import com.paulorjuniorp.apispringbootwithmongodb.dto.UserDTO;
 import com.paulorjuniorp.apispringbootwithmongodb.services.UserService;
 
 @RestController
@@ -19,7 +21,10 @@ public class UserResource {
 	private UserService userService;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<User>> findAll() {
-		return ResponseEntity.ok().body(userService.findAll());
+	public ResponseEntity<List<UserDTO>> findAll() {
+		List<User> userList = userService.findAll();
+		List<UserDTO> userDTOList = userList.stream()
+				.map(userDTO -> new UserDTO(userDTO)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(userDTOList);
 	}
 }
