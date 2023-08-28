@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.paulorjuniorp.apispringbootwithmongodb.domain.User;
+import com.paulorjuniorp.apispringbootwithmongodb.dto.UserDTO;
 import com.paulorjuniorp.apispringbootwithmongodb.repository.UserRepository;
 import com.paulorjuniorp.apispringbootwithmongodb.services.exception.ObjectNotFoundException;
 
@@ -26,5 +27,13 @@ public class UserService {
 		}
 		
 		return user;
+	}
+	
+	public User insert(User obj) {
+		return userRepository.insert(obj);
+	}
+	
+	public User fromDTO(UserDTO objDTO) {
+		return new User(objDTO.getId(), objDTO.getName(), objDTO.getEmail());
 	}
 }
