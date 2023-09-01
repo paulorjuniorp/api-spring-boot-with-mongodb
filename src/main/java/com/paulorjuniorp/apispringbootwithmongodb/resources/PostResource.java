@@ -34,4 +34,12 @@ public class PostResource {
 		
 		return ResponseEntity.ok().body(obj);
 	}
+	
+	@GetMapping(value = "/searchtitle")
+	public ResponseEntity<List<Post>> searchTitle(@RequestParam(value="text", defaultValue = "") String text){
+		text = URL.decodeParam(text);
+		List<Post> obj = postService.searchTitle(text);
+		
+		return ResponseEntity.ok().body(obj);
+	}
 }
